@@ -14,8 +14,9 @@
 })
 
 | Environment variables | Description | Default Value |
-| ``OPENVPN_SERVER_CONFIG_FILE`` | Absolute path to the server config | ``/etc/openvpn/server.conf``
-| ``NAT`` | Whether to use NAT. `1` to enable | ``""``
-| ``NAT_INTERFACE`` | Interface on which to use NAT. e.g. ``eth0`` | ``eth0``
-| ``OPENVPN_ROUTES`` | Space-delimited CIDRs to add iptables ``POSTROUTING`` NAT rules for `ccd` clients | ``192.168.50.0/24 192.168.51.0/24``
+|:-------:|:-------:|:-------:|
+| ``OPENVPN_SERVER_CONFIG_FILE`` | Absolute path to the server config | ``/etc/openvpn/server.conf`` |
+| ``NAT`` | Whether to use NAT. `1` to enable | ``""`` |
+| ``NAT_INTERFACE`` | Interface on which to use NAT. e.g. ``eth0`` | ``eth0`` |
+| ``OPENVPN_ROUTES`` | Space-delimited CIDRs to add iptables ``POSTROUTING`` NAT rules for `ccd` clients | ``192.168.50.0/24 192.168.51.0/24`` |
 "@
