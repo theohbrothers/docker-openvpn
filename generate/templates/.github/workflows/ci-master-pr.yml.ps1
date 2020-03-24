@@ -1,5 +1,5 @@
 @'
-name: build
+name: ci-master-pr
 
 on:
   push:

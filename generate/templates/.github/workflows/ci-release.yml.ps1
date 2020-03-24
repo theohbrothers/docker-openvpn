@@ -1,5 +1,5 @@
 @'
-name: build
+name: ci-release
 
 on:
   push:
