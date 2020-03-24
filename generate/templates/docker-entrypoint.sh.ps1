@@ -15,6 +15,11 @@ NAT_INTERFACE=${NAT_INTERFACE:-eth0}
 CUSTOM_FIREWALL_SCRIPT=${CUSTOM_FIREWALL_SCRIPT:-/etc/openvpn/firewall.sh}
 
 # Provision
+sysctl -w net.ipv4.conf.all.forwarding=1 && "Enabling ipv4 forwarding"|| echo "Failed to enable ipv4 forwarding"
+sysctl -w net.ipv6.conf.all.disable_ipv6=0 && "Enabling ipv6" || echo "Failed to enable ipv6"
+sysctl -w net.ipv6.conf.default.forwarding=1 && "Enabling ipv6 default forwarding" || echo "Failed to enable ipv6 default forwarding"
+sysctl -w net.ipv6.conf.all.forwarding=1 && "Enabling ipv6 forwarding" || echo "Failed to enable ipv6 forwarding"
+
 echo "Provisioning tun device"
 mkdir -p /dev/net
 if [ ! -c /dev/net/tun ]; then

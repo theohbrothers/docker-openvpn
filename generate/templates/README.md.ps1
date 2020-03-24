@@ -29,12 +29,13 @@
 
 The entrypoint script takes care of (in order):
 
-1. Normalizing environment variables
-2. provisioning the ``tun`` device
-3. executing the ``CUSTOM_FIREWALL_SCRIPT`` if it exists
-4. provisioning a ``NAT`` POSTROUTING iptables rule for tunnel-to-world packets
-5. provisioning a ``NAT`` POSTROUTING iptables rule each entry in ``OPENVPN_ROUTES``
-6. Listing iptables
-7. Generating the final ``openvpn`` command line
+1. normalizing environment variables
+2. enabling ``ipv4`` and ``ipv6`` forwarding in ``sysctl``
+3. provisioning the ``tun`` device
+4. executing the ``CUSTOM_FIREWALL_SCRIPT`` if it exists
+5. provisioning a ``NAT`` POSTROUTING iptables rule for tunnel-to-world packets
+6. provisioning a ``NAT`` POSTROUTING iptables rule each entry in ``OPENVPN_ROUTES``
+7. Listing iptables
+8. Generating the final ``openvpn`` command line
 
 "@
