@@ -42,3 +42,7 @@ The entrypoint script takes care of (in order):
 5. provisioning a `NAT` POSTROUTING iptables rule each entry in `OPENVPN_ROUTES`
 6. Listing iptables
 7. Generating the final `openvpn` command line
+
+# ipv4 and ipv6 forwarding
+
+ipv4 and ipv6 forwarding may be enabled at container runtime by using the [`sysctls` key in `docker-compose.yml`](https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls), or with [`--sysctl` flag in `docker-run`](https://docs.docker.com/engine/reference/commandline/run/#/configure-namespaced-kernel-parameters-sysctls-at-runtime#configure-namespaced-kernel-parameters-sysctls-at-runtime)
