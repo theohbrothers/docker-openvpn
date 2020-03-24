@@ -8,10 +8,14 @@
 
 ``easy-rsa`` is not included. It is not considered best practice to be signing or be able to sign certs on the server.
 
+# Tags
+
 | Tags |
 |:-------:| $( $VARIANTS | % {
 "`n| ``:$( $_['tag'] )`` |"
 })
+
+# Environments variables
 
 | Environment variables | Description | Default Value |
 |:-------:|:-------:|:-------:|

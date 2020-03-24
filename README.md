@@ -7,6 +7,8 @@
 
 `easy-rsa` is not included. It is not considered best practice to be signing or be able to sign certs on the server.
 
+# Tags
+
 | Tags |
 |:-------:| 
 | `:v2.3.18-alpine-3.3` | 
@@ -18,6 +20,8 @@
 | `:v2.4.6-alpine-3.9` | 
 | `:v2.4.7-alpine-3.10` | 
 | `:v2.4.8-alpine-3.11` |
+
+# Environments variables
 
 | Environment variables | Description | Default Value |
 |:-------:|:-------:|:-------:|
