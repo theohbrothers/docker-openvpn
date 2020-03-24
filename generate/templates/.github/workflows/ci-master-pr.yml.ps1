@@ -66,15 +66,6 @@ $( $VARIANTS | % {
           "${VARIANT_BUILD_DIR}"
         docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_REF}"
         docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_REF_AND_SHA_SHORT}"
-
-'@
-if ( $_['tag_as_latest'] ) {
-@'
-        docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:latest"
-
-'@
-}
-@'
     - name: Clean-up
       run: docker logout
       if: always()
