@@ -24,4 +24,17 @@
 | ``NAT`` | Whether to use NAT. ``0`` to disable. ``1`` to enable. If NAT is enabled, iptables ``POSTROUTING`` rules will be provisioned | ``1`` |
 | ``NAT_INTERFACE`` | Interface on which to use NAT. E.g. ``eth0`` | ``eth0`` |
 | ``CUSTOM_FIREWALL_SCRIPT`` | Custom script for firewall. If present, this script is executed before any other ``iptables`` rules are provisioned | ``/etc/openvpn/firewall.sh`` |
+
+# `docker-entrypoint.sh`
+
+The entrypoint script takes care of (in order):
+
+1. Normalizing environment variables
+2. provisioning the ``tun`` device
+3. executing the ``CUSTOM_FIREWALL_SCRIPT`` if it exists
+4. provisioning a ``NAT`` POSTROUTING iptables rule for tunnel-to-world packets
+5. provisioning a ``NAT`` POSTROUTING iptables rule each entry in ``OPENVPN_ROUTES``
+6. Listing iptables
+7. Generating the final ``openvpn`` command line
+
 "@
