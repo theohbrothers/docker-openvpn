@@ -60,11 +60,27 @@ $( $VARIANTS | % {
         docker build \
           -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG}" \
           -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_VERSION}" \
+
+'@
+if ( $_['tag_as_latest'] ) {
+@'
           -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:latest" \
+
+'@
+}
+@'
           "${VARIANT_BUILD_DIR}"
         docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG}"
         docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_VERSION}"
+
+'@
+if ( $_['tag_as_latest'] ) {
+@'
         docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:latest"
+
+'@
+}
+@'
     - name: Clean-up
       run: docker logout
       if: always()
