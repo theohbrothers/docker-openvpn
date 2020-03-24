@@ -1,0 +1,12 @@
+version: '2'
+services:
+  openvpn:
+    container_name: openvpn
+    image: theohbrothers/docker-openvpn:v2.3.18-alpine-3.4
+    ports:
+     - "1194:1194/udp"
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    volumes:
+     - ./openvpn/server.conf:/etc/openvpn/server.conf

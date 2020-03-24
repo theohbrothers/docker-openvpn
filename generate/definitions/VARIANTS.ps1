@@ -122,6 +122,46 @@ $VARIANTS_SHARED = @{
                     }
                 )
             }
+            'docker-entrypoint.sh' = @{
+                common = $true
+                includeHeader = $false
+                includeFooter = $false
+                passes = @(
+                    @{
+                        variables = @{}
+                    }
+                )
+            }
+            'docker-compose.yml' = @{
+                common = $true
+                includeHeader = $false
+                includeFooter = $false
+                passes = @(
+                    @{
+                        variables = @{}
+                    }
+                )
+            }
+            'openvpn/client.conf' = @{
+                common = $true
+                includeHeader = $false
+                includeFooter = $false
+                passes = @(
+                    @{
+                        variables = @{}
+                    }
+                )
+            }
+            'openvpn/server.conf' = @{
+                common = $true
+                includeHeader = $false
+                includeFooter = $false
+                passes = @(
+                    @{
+                        variables = @{}
+                    }
+                )
+            }
         }
     }
 }
