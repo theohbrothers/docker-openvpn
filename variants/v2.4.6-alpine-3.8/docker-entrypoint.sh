@@ -18,7 +18,7 @@ echo "Provisioning tun device"
 mkdir -p /dev/net
 if [ ! -c /dev/net/tun ]; then
     mknod /dev/net/tun c 10 200
-fi;
+fi
 if [ -f "$CUSTOM_FIREWALL_SCRIPT" ]; then
     echo "Executing custom firewall script $CUSTOM_FIREWALL_SCRIPT 1"
     sh "$CUSTOM_FIREWALL_SCRIPT"
