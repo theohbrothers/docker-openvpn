@@ -39,5 +39,5 @@ The entrypoint script takes care of (in order):
 
 # ipv4 and ipv6 forwarding
 
-ipv4 and ipv6 forwarding may be enabled at container runtime by using the [``sysctls`` key in ``docker-compose.yml``](https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls), or with [``--sysctl`` flag in ``docker-run``](https://docs.docker.com/engine/reference/commandline/run/#/configure-namespaced-kernel-parameters-sysctls-at-runtime#configure-namespaced-kernel-parameters-sysctls-at-runtime)
+If not already enabled on the host, ipv4 and ipv6 forwarding may be enabled at container runtime by using the [``sysctls`` key in ``docker-compose.yml``](https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls), or with [``--sysctl`` flag in ``docker-run``](https://docs.docker.com/engine/reference/commandline/run/#/configure-namespaced-kernel-parameters-sysctls-at-runtime#configure-namespaced-kernel-parameters-sysctls-at-runtime)
 "@
