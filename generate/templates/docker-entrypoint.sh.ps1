@@ -1,7 +1,7 @@
 @'
 #!/bin/sh
 
-set -eo pipefail
+set -aeo pipefail
 
 # Env vars
 OPENVPN=openvpn
@@ -9,9 +9,10 @@ OPENVPN_SERVER_CONFIG_FILE=${OPENVPN_SERVER_CONFIG_FILE:-/etc/openvpn/server.con
 # OPENVPN_CLIENT_CONFIG_DIR=${OPENVPN_CLIENT_CONFIG_DIR:-/etc/openvpn/ccd}
 # OPENVPN_STATUS_FILE=${OPENVPN_STATUS_FILE:-}
 # OPENVPN_STATUS_FILE_WRITE_FREQUENCY_SECONDS={$OPENVPN_STATUS_FILE_WRITE_FREQUENCY_SECONDS:-10}
+OPENVPN_ROUTES=${OPENVPN_ROUTES:-}
 NAT=${NAT:-1}
 NAT_INTERFACE=${NAT_INTERFACE:-eth0}
-OPENVPN_ROUTES=${OPENVPN_ROUTES:-}
+CUSTOM_FIREWALL_SCRIPT=${CUSTOM_FIREWALL_SCRIPT:-/etc/openvpn/firewall.sh}
 
 # Provision
 echo "Provisioning tun device"
@@ -19,6 +20,12 @@ mkdir -p /dev/net
 if [ ! -c /dev/net/tun ]; then
     mknod /dev/net/tun c 10 200
 fi;
+if [ -f "$CUSTOM_FIREWALL_SCRIPT" ]; then
+    echo "Executing custom firewall script $CUSTOM_FIREWALL_SCRIPT 1"
+    sh "$CUSTOM_FIREWALL_SCRIPT"
+else
+    echo "Not executing custom firewall script $CUSTOM_FIREWALL_SCRIPT because it does not exist"
+fi
 if [ "$NAT" = 1 ]; then
     echo "NAT is enabled"
     echo "Provisioning nat iptables rules"

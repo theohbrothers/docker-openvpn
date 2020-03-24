@@ -162,6 +162,16 @@ $VARIANTS_SHARED = @{
                     }
                 )
             }
+            'openvpn/firewall.sh' = @{
+                common = $true
+                includeHeader = $false
+                includeFooter = $false
+                passes = @(
+                    @{
+                        variables = @{}
+                    }
+                )
+            }
         }
     }
 }
