@@ -104,8 +104,8 @@ $VARIANTS = @(
                         $variant['distro']
                         $variant['distro_version']
                 ) -join '-'
-                tag_as_latest = if ( $variant.Contains('tag_as_latest') ) {
-                                    $variant['tag_as_latest']
+                tag_as_latest = if ( $subVariant.Contains('tag_as_latest') ) {
+                                    $subVariant['tag_as_latest']
                                 } else {
                                     $false
                                 }
