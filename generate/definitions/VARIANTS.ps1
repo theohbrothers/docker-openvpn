@@ -78,9 +78,8 @@ $local:VARIANTS_MATRIX = @(
         distro = 'alpine'
         distro_version = '3.11'
         subvariants = @(
-            @{ components = @() }
+            @{ components = @(); tag_as_latest = $true }
         )
-        tag_as_latest = $true
     }
 )
 
