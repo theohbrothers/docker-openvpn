@@ -10,16 +10,17 @@
 # Tags
 
 | Tags |
-|:-------:| 
-| `:v2.3.18-alpine-3.3` | 
-| `:v2.3.18-alpine-3.4` | 
-| `:v2.3.18-alpine-3.5` | 
-| `:v2.4.4-alpine-3.6` | 
-| `:v2.4.4-alpine-3.7` | 
-| `:v2.4.6-alpine-3.8` | 
-| `:v2.4.6-alpine-3.9` | 
-| `:v2.4.7-alpine-3.10` | 
-| `:v2.4.8-alpine-3.11` |
+|:-------:|
+| `:v2.3.18-alpine-3.3` |
+| `:v2.3.18-alpine-3.4` |
+| `:v2.3.18-alpine-3.5` |
+| `:v2.4.4-alpine-3.6` |
+| `:v2.4.4-alpine-3.7` |
+| `:v2.4.6-alpine-3.8` |
+| `:v2.4.6-alpine-3.9` |
+| `:v2.4.7-alpine-3.10` |
+| `:v2.4.8-alpine-3.11`, `:latest` |
+
 
 # Quick start
 
