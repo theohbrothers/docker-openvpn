@@ -24,7 +24,7 @@ Dockerized `openvpn`.
 
 ## Usage
 
-The image assumes you have knowledge of configuring `openvpn`.
+It is assumed that you have knowledge of configuring `openvpn`.
 
 To run the image, at the least you should mount a `/etc/openvpn/server.conf`, which may be a unified openvpn profile (see INLINE FILE SUPPORT section in the [openvpn manual](https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage)).
 
