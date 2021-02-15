@@ -46,15 +46,15 @@ The defaults should work, so that there is no need to specify any environment va
 
 ## docker-entrypoint.sh
 
-The entrypoint script takes care of (in order):
+The entrypoint script performs (in order):
 
-1. Normalizing environment variables
-2. provisioning the `tun` device
-3. executing the `CUSTOM_FIREWALL_SCRIPT` if it exists
-4. provisioning a `NAT` POSTROUTING iptables rule for tunnel-to-world packets
-5. provisioning a `NAT` POSTROUTING iptables rule each entry in `OPENVPN_ROUTES`
-6. Listing iptables
-7. Generating the final `openvpn` command line
+1. Normalize environment variables
+2. Provision the `tun` device
+3. Execute the `CUSTOM_FIREWALL_SCRIPT` if it exists
+4. Provision a `NAT` POSTROUTING iptables rule for tunnel-to-world packets
+5. Provision a `NAT` POSTROUTING iptables rule each entry in `OPENVPN_ROUTES`
+6. List iptables
+7. Generate the final `openvpn` command line
 
 ## IPV4 and ipV6 forwarding
 
