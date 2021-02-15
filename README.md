@@ -23,7 +23,6 @@ Dockerized `openvpn`.
 | `:v2.3.18-alpine-3.4` | [View](variants/v2.3.18-alpine-3.4 ) |
 | `:v2.3.18-alpine-3.3` | [View](variants/v2.3.18-alpine-3.3 ) |
 
-
 ## Usage
 
 It is assumed that you have knowledge of configuring `openvpn`.
@@ -31,7 +30,7 @@ It is assumed that you have knowledge of configuring `openvpn`.
 To run the image, at the least you should mount a `/etc/openvpn/server.conf`, which may be a unified openvpn profile (see INLINE FILE SUPPORT section in the [openvpn manual](https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage)).
 
 ```sh
-$ docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:v2.4.8-alpine-3.11
+docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:v2.4.8-alpine-3.11
 ```
 
 ## Environment variables
@@ -51,12 +50,12 @@ The defaults should work, so that there should be no need to specify any environ
 The entrypoint script performs (in order):
 
 1. Normalize environment variables
-2. Provision the `tun` device
-3. Execute the `CUSTOM_FIREWALL_SCRIPT` if it exists
-4. Provision a `NAT` POSTROUTING iptables rule for tunnel-to-world packets
-5. Provision a `NAT` POSTROUTING iptables rule each entry in `OPENVPN_ROUTES`
-6. List iptables
-7. Generate the final `openvpn` command line
+1. Provision the `tun` device
+1. Execute the `CUSTOM_FIREWALL_SCRIPT` if it exists
+1. Provision a `NAT` POSTROUTING iptables rule for tunnel-to-world packets
+1. Provision a `NAT` POSTROUTING iptables rule each entry in `OPENVPN_ROUTES`
+1. List iptables
+1. Generate the final `openvpn` command line
 
 ## IPv4 and IPv6 forwarding
 
