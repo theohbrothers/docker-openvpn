@@ -40,7 +40,7 @@ $ docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/s
 
 ## Environment variables
 
-The defaults should work, so that there is no need to specify any environment variable when running the container.
+The defaults should work, so that there should be no need to specify any environment variable when running the container.
 
 | Environment variables | Description | Default Value |
 |:-------:|:-------:|:-------:|
