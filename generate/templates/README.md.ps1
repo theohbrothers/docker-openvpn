@@ -38,7 +38,7 @@ It is assumed that you have knowledge of configuring ``openvpn``.
 To run the image, at the least you should mount a ``/etc/openvpn/server.conf``, which may be a unified openvpn profile (see INLINE FILE SUPPORT section in the [openvpn manual](https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage)).
 
 ``````sh
-docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:v2.4.8-alpine-3.11
+docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:$( $VARIANTS | ? { $_['tag_as_latest'] } | Select -First 1 | % { $_['tag'] } )
 ``````
 
 ## Environment variables
