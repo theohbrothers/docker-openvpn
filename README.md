@@ -9,6 +9,8 @@ Dockerized `openvpn`.
 
 `easy-rsa` is not included. It is not considered best practice to be signing or be able to sign certs on the server.
 
+## Tags
+
 | Tag | Dockerfile Build Context |
 |:-------:|:---------:|
 | `:v2.4.8-alpine-3.11`, `:latest` | [View](variants/v2.4.8-alpine-3.11 ) |
