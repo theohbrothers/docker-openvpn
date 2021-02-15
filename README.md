@@ -45,7 +45,7 @@ The defaults should work, so that there should be no need to specify any environ
 | `NAT_INTERFACE` | Interface on which to use NAT. E.g. `eth0` | `eth0` |
 | `CUSTOM_FIREWALL_SCRIPT` | Custom script for firewall. If present, this script is executed before any other `iptables` rules are provisioned | `/etc/openvpn/firewall.sh` |
 
-## docker-entrypoint.sh
+## `docker-entrypoint.sh`
 
 The entrypoint script performs (in order):
 
