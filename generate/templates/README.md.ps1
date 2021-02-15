@@ -28,7 +28,7 @@ $(
 }) -join ''
 )
 
-# Quick start
+## Usage
 
 The image assumes you have knowledge of configuring ``openvpn``.
 
@@ -38,7 +38,7 @@ To run the image, at the least you should mount a ``/etc/openvpn/server.conf``, 
 $ docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:v2.4.8-alpine-3.11
 ``````
 
-# Environments variables
+## Environment variables
 
 The defaults should work, so that there is no need to specify any environment variable when running the container.
 
@@ -50,7 +50,7 @@ The defaults should work, so that there is no need to specify any environment va
 | ``NAT_INTERFACE`` | Interface on which to use NAT. E.g. ``eth0`` | ``eth0`` |
 | ``CUSTOM_FIREWALL_SCRIPT`` | Custom script for firewall. If present, this script is executed before any other ``iptables`` rules are provisioned | ``/etc/openvpn/firewall.sh`` |
 
-# `docker-entrypoint.sh`
+## `docker-entrypoint.sh`
 
 The entrypoint script takes care of (in order):
 
@@ -62,7 +62,7 @@ The entrypoint script takes care of (in order):
 6. Listing iptables
 7. Generating the final ``openvpn`` command line
 
-# ipv4 and ipv6 forwarding
+## IPV4 and ipV6 forwarding
 
 If not already enabled on the host, ipv4 and ipv6 forwarding may be enabled at container runtime by using the [``sysctls`` key in ``docker-compose.yml``](https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls), or with [``--sysctl`` flag in ``docker-run``](https://docs.docker.com/engine/reference/commandline/run/#/configure-namespaced-kernel-parameters-sysctls-at-runtime#configure-namespaced-kernel-parameters-sysctls-at-runtime)
 "@
