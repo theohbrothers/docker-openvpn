@@ -56,6 +56,6 @@ The entrypoint script performs (in order):
 6. List iptables
 7. Generate the final `openvpn` command line
 
-## IPV4 and ipV6 forwarding
+## IPv4 and IPv6 forwarding
 
 If not already enabled on the host, ipv4 and ipv6 forwarding may be enabled at container runtime by using the [`sysctls` key in `docker-compose.yml`](https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls), or with [`--sysctl` flag in `docker-run`](https://docs.docker.com/engine/reference/commandline/run/#/configure-namespaced-kernel-parameters-sysctls-at-runtime#configure-namespaced-kernel-parameters-sysctls-at-runtime)
