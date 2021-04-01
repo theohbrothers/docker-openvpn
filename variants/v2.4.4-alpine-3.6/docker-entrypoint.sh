@@ -2,6 +2,14 @@
 
 set -aeo pipefail
 
+output() {
+    echo -e "[$( date -u '+%Y-%m-%dT%H:%M:%S%z' )] $1"
+}
+
+error() {
+    echo -e "[$( date -u '+%Y-%m-%dT%H:%M:%S%z' )] $1" >&2
+}
+
 # Env vars
 OPENVPN=openvpn
 OPENVPN_SERVER_CONFIG_FILE=${OPENVPN_SERVER_CONFIG_FILE:-/etc/openvpn/server.conf}
@@ -14,40 +22,40 @@ NAT_INTERFACE=${NAT_INTERFACE:-eth0}
 CUSTOM_FIREWALL_SCRIPT=${CUSTOM_FIREWALL_SCRIPT:-/etc/openvpn/firewall.sh}
 
 # Provision
-echo "Provisioning tun device"
+output "Provisioning tun device"
 mkdir -p /dev/net
 if [ ! -c /dev/net/tun ]; then
     mknod /dev/net/tun c 10 200
 fi
 if [ -f "$CUSTOM_FIREWALL_SCRIPT" ]; then
-    echo "Executing custom firewall script $CUSTOM_FIREWALL_SCRIPT 1"
+    output "Executing custom firewall script: $CUSTOM_FIREWALL_SCRIPT"
     sh "$CUSTOM_FIREWALL_SCRIPT"
 else
-    echo "Not executing custom firewall script $CUSTOM_FIREWALL_SCRIPT because it does not exist"
+    output "Not executing custom firewall script $CUSTOM_FIREWALL_SCRIPT because it does not exist"
 fi
 if [ "$NAT" = 1 ]; then
-    echo "NAT is enabled"
-    echo "Provisioning nat iptables rules"
+    output "NAT is enabled"
+    output "Provisioning nat iptables rules"
     iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
     if [ -n "$OPENVPN_ROUTES" ]; then
-        echo "Provisioning nat iptables rules for OPENVPN_ROUTES"
+        output "Provisioning nat iptables rules for OPENVPN_ROUTES"
         for r in $OPENVPN_ROUTES; do
             iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
         done
     else
-        echo "Not provisioning route iptables rules because OPENVPN_ROUTES is empty"
+        output "Not provisioning route iptables rules because OPENVPN_ROUTES is empty"
     fi
 else
-    echo "NAT is disabled."
-    echo "Not adding nat iptables rules"
+    output "NAT is disabled."
+    output "Not adding nat iptables rules"
 fi
 
-echo "Listing iptables rules:"
+output "Listing iptables rules:"
 iptables -L -nv
 iptables -L -nv -t nat
 
 # Generate the command line. openvpn man: https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/
-echo "Generating command line"
+output "Generating command line"
 set "$OPENVPN" --cd /etc/openvpn
 set "$@" --config "$OPENVPN_SERVER_CONFIG_FILE"
 # set "$@" --client-config-dir "$OPENVPN_CLIENT_CONFIG_DIR"
@@ -56,5 +64,5 @@ if [ -n "$OPENVPN_STATUS_FILE" ]; then
 fi
 
 # Exec
-echo "openvpn command line: $@"
+output "openvpn command line: $@"
 exec "$@"
