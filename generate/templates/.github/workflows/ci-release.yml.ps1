@@ -88,3 +88,18 @@ if ( $_['tag_as_latest'] ) {
       if: always()
 '@
 })
+
+@"
+
+  update-draft-release:
+    needs: [$( ($VARIANTS | % { "build-$( $_['tag'].Replace('.', '-') )" }) -join ', ' )]
+"@
+@'
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      # Drafts your next Release notes as Pull Requests are merged into "master"
+      - uses: toolmantim/release-drafter@v5.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+'@
