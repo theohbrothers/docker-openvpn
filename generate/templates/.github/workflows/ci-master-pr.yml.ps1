@@ -79,6 +79,7 @@ $( $VARIANTS | % {
     needs: [$( ($VARIANTS | % { "build-$( $_['tag'].Replace('.', '-') )" }) -join ', ' )]
 "@
 @'
+
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:

@@ -486,7 +486,8 @@ jobs:
       run: docker logout
       if: always()
   update-draft-release:
-    needs: [build-v2-4-8-alpine-3-11, build-v2-4-7-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3]    if: github.ref == 'refs/heads/master'
+    needs: [build-v2-4-8-alpine-3-11, build-v2-4-7-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3]
+    if: github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     steps:
       # Drafts your next Release notes as Pull Requests are merged into "master"

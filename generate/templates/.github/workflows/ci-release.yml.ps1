@@ -95,7 +95,8 @@ if ( $_['tag_as_latest'] ) {
     needs: [$( ($VARIANTS | % { "build-$( $_['tag'].Replace('.', '-') )" }) -join ', ' )]
 "@
 @'
-    if: github.ref == 'refs/heads/master'
+
+    if: github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     steps:
       # Drafts your next Release notes as Pull Requests are merged into "master"
