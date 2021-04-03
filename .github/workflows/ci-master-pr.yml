@@ -9,6 +9,57 @@ on:
     - master
 
 jobs:
+  build-v2-5-0-alpine-3-13:
+    runs-on: ubuntu-18.04
+    env:
+      VARIANT_TAG: v2.5.0-alpine-3.13
+      # VARIANT_TAG_WITH_REF: v2.5.0-alpine-3.13-${GITHUB_REF}
+      VARIANT_BUILD_DIR: variants/v2.5.0-alpine-3.13
+    steps:
+    - uses: actions/checkout@v1
+    - name: Display system info (linux)
+      run: |
+        set -e
+        hostname
+        whoami
+        cat /etc/*release
+        lscpu
+        free
+        df -h
+        pwd
+        docker info
+        docker version
+    - name: Login to docker registry
+      run: echo "${DOCKERHUB_REGISTRY_PASSWORD}" | docker login -u "${DOCKERHUB_REGISTRY_USER}" --password-stdin
+      env:
+        DOCKERHUB_REGISTRY_USER: ${{ secrets.DOCKERHUB_REGISTRY_USER }}
+        DOCKERHUB_REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_REGISTRY_PASSWORD }}
+    - name: Build and push image
+      env:
+        DOCKERHUB_REGISTRY_USER: ${{ secrets.DOCKERHUB_REGISTRY_USER }}
+      run: |
+        set -e
+
+        # Get 'project-name' from 'namespace/project-name'
+        CI_PROJECT_NAME=$( echo "${GITHUB_REPOSITORY}" | rev | cut -d '/' -f 1 | rev )
+
+        # Get 'ref-name' from 'refs/heads/ref-name'
+        REF=$( echo "${GITHUB_REF}" | rev | cut -d '/' -f 1 | rev )
+        SHA_SHORT=$( echo "${GITHUB_SHA}" | cut -c1-7 )
+
+        # Generate the final tags. E.g. 'master-v1.0.0-alpine' and 'master-b29758a-v1.0.0-alpine'
+        VARIANT_TAG_WITH_REF="${REF}-${VARIANT_TAG}"
+        VARIANT_TAG_WITH_REF_AND_SHA_SHORT="${REF}-${SHA_SHORT}-${VARIANT_TAG}"
+
+        docker build \
+          -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_REF}" \
+          -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_REF_AND_SHA_SHORT}" \
+          "${VARIANT_BUILD_DIR}"
+        docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_REF}"
+        docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_REF_AND_SHA_SHORT}"
+    - name: Clean-up
+      run: docker logout
+      if: always()
   build-v2-4-10-alpine-3-12:
     runs-on: ubuntu-18.04
     env:
@@ -554,7 +605,7 @@ jobs:
       - name: Print outputs
         run: echo ${{ steps.resolve-release-tag.outputs.TAG }}
   update-draft-release:
-    needs: [build-v2-4-10-alpine-3-12, build-v2-4-8-alpine-3-11, build-v2-4-7-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3, resolve-release-tag]
+    needs: [build-v2-5-0-alpine-3-13, build-v2-4-10-alpine-3-12, build-v2-4-8-alpine-3-11, build-v2-4-7-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3, resolve-release-tag]
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
