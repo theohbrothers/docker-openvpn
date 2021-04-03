@@ -9,6 +9,7 @@ on:
 jobs:
 '@
 
+$local:WORKFLOW_JOB_NAMES = $VARIANTS | % { "build-$( $_['tag'].Replace('.', '-') )" }
 $( $VARIANTS | % {
 @"
 
@@ -88,3 +89,80 @@ if ( $_['tag_as_latest'] ) {
       if: always()
 '@
 })
+
+@"
+
+  converge-master-and-release-branches:
+    needs: [$( $local:WORKFLOW_JOB_NAMES -join ', ' )]
+    if: github.ref == 'refs/heads/release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Merge release into master (fast-forward)
+        run: |
+          git checkout master
+          git merge release
+          git push origin master
+"@
+
+@'
+
+  resolve-release-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      TAG: ${{ steps.resolve-release-tag.outputs.TAG }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Resolve release tag
+        id: resolve-release-tag
+        run: |
+          set +e
+          # E.g. 20210402
+          TODAYS_DATE=$( date -u '+%Y%m%d' )
+          # Is this the first tag for this date?
+          TODAYS_DATE_TAGS=$( git tag --list | grep "^$TODAYS_DATE" )
+          TAG=
+          if [ -z "$TODAYS_DATE_TAGS" ]; then
+              # E.g. 20210402.0.0
+              TAG="$TODAYS_DATE.0.0" # Send this to stdout
+          else
+              # E.g. if there are 20210402.0.0, 20210402.0.1, 20210402.0.2, this returns 2
+              VERSION_MINOR_LATEST=$( echo "$TODAYS_DATE_TAGS" | cut -d '.' -f 3 | sort -nr | head -n1 )
+              # Minor version
+              VERSION_MINOR=$( expr "$VERSION_MINOR_LATEST" + 1 )
+              # E.g. 20210402.0.3
+              TAG="$TODAYS_DATE.0.$VERSION_MINOR"  # Send this to stdout
+          fi
+          echo "TODAYS_DATE: $TODAYS_DATE"
+          echo "TODAYS_DATE_TAGS: $TODAYS_DATE_TAGS"
+          echo "TAG: $TAG"
+          echo "::set-output name=TAG::$TAG"
+      - name: Print outputs
+        run: echo ${{ steps.resolve-release-tag.outputs.TAG }}
+'@
+
+@"
+
+  publish-draft-release:
+    needs: [$( $local:WORKFLOW_JOB_NAMES -join ', ' )]
+"@
+@'
+
+    if: github.ref == 'refs/heads/release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Drafts your next Release notes as Pull Requests are merged into "master"
+      - uses: release-drafter/release-drafter@v5
+        with:
+          config-name: release-drafter.yml
+          publish: true
+          name: ${{ needs.resolve-release-tag.outputs.TAG }}
+          tag: ${{ needs.resolve-release-tag.outputs.TAG }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+'@
