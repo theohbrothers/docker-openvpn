@@ -35,10 +35,11 @@ else
 fi
 if [ "$NAT" = 1 ]; then
     output "NAT is enabled"
-    output "Provisioning nat iptables rules"
+    output "Provisioning NAT iptables rules"
+    output "NAT_INTERFACE: $NAT_INTERFACE"
     iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
     if [ -n "$OPENVPN_ROUTES" ]; then
-        output "Provisioning nat iptables rules for OPENVPN_ROUTES"
+        output "Provisioning NAT iptables rules for OPENVPN_ROUTES"
         for r in $OPENVPN_ROUTES; do
             iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
         done
@@ -47,11 +48,12 @@ if [ "$NAT" = 1 ]; then
     fi
 else
     output "NAT is disabled."
-    output "Not adding nat iptables rules"
+    output "Not adding NAT iptables rules"
 fi
 
 output "Listing iptables rules:"
 iptables -L -nv
+output "Listing iptables NAT rules:"
 iptables -L -nv -t nat
 
 # Generate the command line. openvpn man: https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/
