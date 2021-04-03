@@ -67,6 +67,7 @@ if [ -n "$OPENVPN_STATUS_FILE" ]; then
 fi
 
 # Exec
-output "openvpn command line: $@"
+ARGS="$@"
+output "openvpn command line: $ARGS"
 exec "$@"
 '@
