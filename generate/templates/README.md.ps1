@@ -50,7 +50,7 @@ The defaults should work, so that there should be no need to specify any environ
 | ``OPENVPN_ROUTES`` | Space-delimited CIDRs to add iptables ``POSTROUTING`` NAT rules, performed only when ``NAT`` is ``1`` | ``192.168.50.0/24 192.168.51.0/24`` |
 | ``NAT`` | Whether to use NAT. ``0`` to disable. ``1`` to enable. If NAT is enabled, iptables ``POSTROUTING`` rules will be provisioned | ``1`` |
 | ``NAT_INTERFACE`` | Interface on which to use NAT. E.g. ``eth0`` | ``eth0`` |
-| ``CUSTOM_FIREWALL_SCRIPT`` | Custom script for firewall. If present, this script is executed before any other ``iptables`` rules are provisioned | ``/etc/openvpn/firewall.sh`` |
+| ``CUSTOM_FIREWALL_SCRIPT`` | Full path to a custom script for firewall. If present, this script is executed before any other ``iptables`` rules are provisioned | ``/etc/openvpn/firewall.sh`` |
 
 ## ``docker-entrypoint.sh``
 
