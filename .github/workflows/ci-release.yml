@@ -639,7 +639,7 @@ jobs:
       - name: Print outputs
         run: echo ${{ steps.resolve-release-tag.outputs.TAG }}
   publish-draft-release:
-    needs: [build-v2-5-0-alpine-3-13, build-v2-4-10-alpine-3-12, build-v2-4-8-alpine-3-11, build-v2-4-7-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3, converge-master-and-release-branches]
+    needs: [build-v2-5-0-alpine-3-13, build-v2-4-10-alpine-3-12, build-v2-4-8-alpine-3-11, build-v2-4-7-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3, resolve-release-tag, converge-master-and-release-branches]
     if: github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     steps:
