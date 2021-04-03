@@ -30,7 +30,7 @@ if [ ! -c /dev/net/tun ]; then
 fi
 if [ -f "$CUSTOM_FIREWALL_SCRIPT" ]; then
     output "Executing custom firewall script: $CUSTOM_FIREWALL_SCRIPT"
-    sh "$CUSTOM_FIREWALL_SCRIPT"
+    . "$CUSTOM_FIREWALL_SCRIPT"
 else
     output "Not executing custom firewall script $CUSTOM_FIREWALL_SCRIPT because it does not exist"
 fi
