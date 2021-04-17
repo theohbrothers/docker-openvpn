@@ -38,11 +38,11 @@ if [ "$NAT" = 1 ]; then
     output "NAT is enabled"
     output "Provisioning NAT iptables rules"
     output "NAT_INTERFACE: $NAT_INTERFACE"
-    iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
+    iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
     if [ -n "$OPENVPN_ROUTES" ]; then
         output "Provisioning NAT iptables rules for OPENVPN_ROUTES"
         for r in $OPENVPN_ROUTES; do
-            iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
+            iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
         done
     else
         output "Not provisioning route iptables rules because OPENVPN_ROUTES is empty"
