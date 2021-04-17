@@ -12,7 +12,9 @@ Dockerized `openvpn`.
 
 | Tag | Dockerfile Build Context |
 |:-------:|:---------:|
-| `:v2.4.8-alpine-3.11`, `:latest` | [View](variants/v2.4.8-alpine-3.11 ) |
+| `:v2.5.1-alpine-3.13`, `:latest` | [View](variants/v2.5.1-alpine-3.13 ) |
+| `:v2.4.10-alpine-3.12` | [View](variants/v2.4.10-alpine-3.12 ) |
+| `:v2.4.8-alpine-3.11` | [View](variants/v2.4.8-alpine-3.11 ) |
 | `:v2.4.7-alpine-3.10` | [View](variants/v2.4.7-alpine-3.10 ) |
 | `:v2.4.6-alpine-3.9` | [View](variants/v2.4.6-alpine-3.9 ) |
 | `:v2.4.6-alpine-3.8` | [View](variants/v2.4.6-alpine-3.8 ) |
@@ -29,7 +31,7 @@ It is assumed that you have knowledge of configuring `openvpn`.
 To run the image, at the least you should mount a `/etc/openvpn/server.conf`, which may be a unified openvpn profile (see INLINE FILE SUPPORT section in the [openvpn manual](https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage)).
 
 ```sh
-docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:v2.4.8-alpine-3.11
+docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:v2.5.1-alpine-3.13
 ```
 
 ## Environment variables
@@ -42,7 +44,7 @@ The defaults should work, so that there should be no need to specify any environ
 | `OPENVPN_ROUTES` | Space-delimited CIDRs to add iptables `POSTROUTING` NAT rules, performed only when `NAT` is `1` | `192.168.50.0/24 192.168.51.0/24` |
 | `NAT` | Whether to use NAT. `0` to disable. `1` to enable. If NAT is enabled, iptables `POSTROUTING` rules will be provisioned | `1` |
 | `NAT_INTERFACE` | Interface on which to use NAT. E.g. `eth0` | `eth0` |
-| `CUSTOM_FIREWALL_SCRIPT` | Custom script for firewall. If present, this script is executed before any other `iptables` rules are provisioned | `/etc/openvpn/firewall.sh` |
+| `CUSTOM_FIREWALL_SCRIPT` | Full path to a custom script for firewall. If present, this script is executed before any other `iptables` rules are provisioned | `/etc/openvpn/firewall.sh` |
 
 ## `docker-entrypoint.sh`
 

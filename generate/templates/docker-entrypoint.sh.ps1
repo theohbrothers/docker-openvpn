@@ -30,29 +30,31 @@ if [ ! -c /dev/net/tun ]; then
 fi
 if [ -f "$CUSTOM_FIREWALL_SCRIPT" ]; then
     output "Executing custom firewall script: $CUSTOM_FIREWALL_SCRIPT"
-    sh "$CUSTOM_FIREWALL_SCRIPT"
+    . "$CUSTOM_FIREWALL_SCRIPT"
 else
     output "Not executing custom firewall script $CUSTOM_FIREWALL_SCRIPT because it does not exist"
 fi
 if [ "$NAT" = 1 ]; then
     output "NAT is enabled"
-    output "Provisioning nat iptables rules"
-    iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
+    output "Provisioning NAT iptables rules"
+    output "NAT_INTERFACE: $NAT_INTERFACE"
+    iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
     if [ -n "$OPENVPN_ROUTES" ]; then
-        output "Provisioning nat iptables rules for OPENVPN_ROUTES"
+        output "Provisioning NAT iptables rules for OPENVPN_ROUTES"
         for r in $OPENVPN_ROUTES; do
-            iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
+            iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
         done
     else
         output "Not provisioning route iptables rules because OPENVPN_ROUTES is empty"
     fi
 else
     output "NAT is disabled."
-    output "Not adding nat iptables rules"
+    output "Not adding NAT iptables rules"
 fi
 
 output "Listing iptables rules:"
 iptables -L -nv
+output "Listing iptables NAT rules:"
 iptables -L -nv -t nat
 
 # Generate the command line. openvpn man: https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/
@@ -65,6 +67,7 @@ if [ -n "$OPENVPN_STATUS_FILE" ]; then
 fi
 
 # Exec
-output "openvpn command line: $@"
+ARGS="$@"
+output "openvpn command line: $ARGS"
 exec "$@"
 '@
