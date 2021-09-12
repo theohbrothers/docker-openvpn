@@ -10,12 +10,12 @@ on:
     - master
 jobs:
 
-  build-v2-5-1-alpine-3-13:
+  build-v2-5-2-alpine-3-13:
     runs-on: ubuntu-latest
     env:
-      VARIANT_TAG: v2.5.1-alpine-3.13
-      # VARIANT_TAG_WITH_REF: v2.5.1-alpine-3.13-${GITHUB_REF}
-      VARIANT_BUILD_DIR: variants/v2.5.1-alpine-3.13
+      VARIANT_TAG: v2.5.2-alpine-3.13
+      # VARIANT_TAG_WITH_REF: v2.5.2-alpine-3.13-${GITHUB_REF}
+      VARIANT_BUILD_DIR: variants/v2.5.2-alpine-3.13
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -1443,7 +1443,7 @@ jobs:
 
   # For Generate-DockerImageVariants: For CalVer releases. Each push to 'release' branch is a time-based release.
   converge-master-and-release-branches:
-    needs: [build-v2-5-1-alpine-3-13, build-v2-4-11-alpine-3-12, build-v2-4-11-alpine-3-11, build-v2-4-11-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3]
+    needs: [build-v2-5-2-alpine-3-13, build-v2-4-11-alpine-3-12, build-v2-4-11-alpine-3-11, build-v2-4-11-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3]
     if: github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     steps:
@@ -1493,7 +1493,7 @@ jobs:
         run: echo ${{ steps.resolve-release-tag.outputs.TAG }}
 
   update-draft-release:
-    needs: [build-v2-5-1-alpine-3-13, build-v2-4-11-alpine-3-12, build-v2-4-11-alpine-3-11, build-v2-4-11-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3, resolve-release-tag]
+    needs: [build-v2-5-2-alpine-3-13, build-v2-4-11-alpine-3-12, build-v2-4-11-alpine-3-11, build-v2-4-11-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3, resolve-release-tag]
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
@@ -1513,7 +1513,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-draft-release:
-    needs: [build-v2-5-1-alpine-3-13, build-v2-4-11-alpine-3-12, build-v2-4-11-alpine-3-11, build-v2-4-11-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3, converge-master-and-release-branches, resolve-release-tag]
+    needs: [build-v2-5-2-alpine-3-13, build-v2-4-11-alpine-3-12, build-v2-4-11-alpine-3-11, build-v2-4-11-alpine-3-10, build-v2-4-6-alpine-3-9, build-v2-4-6-alpine-3-8, build-v2-4-4-alpine-3-7, build-v2-4-4-alpine-3-6, build-v2-3-18-alpine-3-5, build-v2-3-18-alpine-3-4, build-v2-3-18-alpine-3-3, converge-master-and-release-branches, resolve-release-tag]
     # For Generate-DockerImageVariants: For CalVer releases. Each push to 'release' branch is a time-based release.
     # if: startsWith(github.ref, 'refs/tags/')
     if: github.ref == 'refs/heads/release'
