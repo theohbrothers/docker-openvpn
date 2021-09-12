@@ -10,4 +10,5 @@ COPY openvpn /etc/openvpn
 RUN chown -R root:root /etc/openvpn && chmod 750 /etc/openvpn && chmod 750 /etc/openvpn/*.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
 "@
