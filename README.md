@@ -1,7 +1,7 @@
 # docker-openvpn
 
 [![github-actions](https://github.com/theohbrothers/docker-openvpn/workflows/ci-master-pr/badge.svg)](https://github.com/theohbrothers/docker-openvpn/actions)
-[![github-tag](https://img.shields.io/github/tag/theohbrothers/docker-openvpn)](https://github.com/theohbrothers/docker-openvpn/releases/)
+[![github-release](https://img.shields.io/github/v/release/theohbrothers/docker-openvpn?style=flat-square)](https://github.com/theohbrothers/docker-openvpn/releases/)
 [![docker-image-size](https://img.shields.io/docker/image-size/theohbrothers/docker-openvpn/latest)](https://hub.docker.com/r/theohbrothers/docker-openvpn)
 
 Dockerized `openvpn`.
