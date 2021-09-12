@@ -1,6 +1,7 @@
 @'
-name-template: 'v$RESOLVED_VERSION  🌈'
-tag-template: 'v$RESOLVED_VERSION'
+# For Generate-DockerImageVariants: For CalVer releases. Each push to 'release' branch is a time-based release.
+name-template: '$RESOLVED_VERSION  🌈'
+tag-template: '$RESOLVED_VERSION'
 categories:
   - title: '🚀 Features'
     labels:
