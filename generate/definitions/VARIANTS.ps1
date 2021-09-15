@@ -117,7 +117,7 @@ $VARIANTS = @(
                             if ($variant['distro_version'] -in @( '3.3', '3.4', '3.5' ) ) {
                               'linux/amd64'
                             }else {
-                              'linux/386,linux/amd64,linux/arm,linux/arm64,linux/s390x'
+                              'linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/s390x'
                             }
                         }
                     }
