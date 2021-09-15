@@ -112,6 +112,15 @@ $VARIANTS = @(
                     package_version_semver = "v$( $variant['package_version'] )" -replace '-r\d+', ''   # E.g. Strip out the '-r' in '2.3.0.0-r1'
                     distro = $variant['distro']
                     distro_version = $variant['distro_version']
+                    platforms = & {
+                        if ($variant['distro'] -eq 'alpine') {
+                            if ($variant['distro_version'] -in @( '3.3', '3.4', '3.5' ) ) {
+                              'linux/amd64'
+                            }else {
+                              'linux/386,linux/amd64,linux/arm,linux/arm64,linux/s390x'
+                            }
+                        }
+                    }
                     components = $subVariant['components']
                 }
                 # Docker image tag. E.g. 'v2.3.0-alpine-3.6'
