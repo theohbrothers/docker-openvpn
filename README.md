@@ -61,3 +61,17 @@ The entrypoint script performs (in order):
 ## IPv4 and IPv6 forwarding
 
 If not already enabled on the host, ipv4 and ipv6 forwarding may be enabled at container runtime by using the [`sysctls` key in `docker-compose.yml`](https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls), or with [`--sysctl` flag in `docker-run`](https://docs.docker.com/engine/reference/commandline/run/#/configure-namespaced-kernel-parameters-sysctls-at-runtime#configure-namespaced-kernel-parameters-sysctls-at-runtime)
+
+## Development
+
+Requires Windows `powershell` or [`pwsh`](https://github.com/PowerShell/PowerShell).
+
+```powershell
+# Install Generate-DockerImageVariants module: https://github.com/theohbrothers/Generate-DockerImageVariants
+Install-Module -Name Generate-DockerImageVariants -Repository PSGallery -Scope CurrentUser -Force -Verbose
+
+# Edit ./generate templates
+
+# Generate the variants
+Generate-DockerImageVariants .
+```
