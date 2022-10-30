@@ -146,8 +146,6 @@ $VARIANTS_SHARED = @{
         templates = @{
             'Dockerfile' = @{
                 common = $true
-                includeHeader = $false
-                includeFooter = $false
                 passes = @(
                     @{
                         variables = @{}
@@ -156,8 +154,6 @@ $VARIANTS_SHARED = @{
             }
             'docker-entrypoint.sh' = @{
                 common = $true
-                includeHeader = $false
-                includeFooter = $false
                 passes = @(
                     @{
                         variables = @{}
@@ -166,8 +162,6 @@ $VARIANTS_SHARED = @{
             }
             'docker-compose.yml' = @{
                 common = $true
-                includeHeader = $false
-                includeFooter = $false
                 passes = @(
                     @{
                         variables = @{}
@@ -176,8 +170,6 @@ $VARIANTS_SHARED = @{
             }
             'openvpn/client.conf' = @{
                 common = $true
-                includeHeader = $false
-                includeFooter = $false
                 passes = @(
                     @{
                         variables = @{}
@@ -186,8 +178,6 @@ $VARIANTS_SHARED = @{
             }
             'openvpn/server.conf' = @{
                 common = $true
-                includeHeader = $false
-                includeFooter = $false
                 passes = @(
                     @{
                         variables = @{}
@@ -196,8 +186,6 @@ $VARIANTS_SHARED = @{
             }
             'openvpn/firewall.sh' = @{
                 common = $true
-                includeHeader = $false
-                includeFooter = $false
                 passes = @(
                     @{
                         variables = @{}
