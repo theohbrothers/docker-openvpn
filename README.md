@@ -41,9 +41,10 @@ The defaults should work, so that there should be no need to specify any environ
 | Environment variables | Description | Default Value |
 |:-------:|:-------:|:-------:|
 | `OPENVPN_SERVER_CONFIG_FILE` | Absolute path to the server config | `/etc/openvpn/server.conf` |
-| `OPENVPN_ROUTES` | Space-delimited CIDRs to add iptables `POSTROUTING` NAT rules, performed only when `NAT` is `1` | `192.168.50.0/24 192.168.51.0/24` |
-| `NAT` | Whether to use NAT. `0` to disable. `1` to enable. If NAT is enabled, iptables `POSTROUTING` rules will be provisioned | `1` |
+| `OPENVPN_ROUTES` | Space-delimited CIDRs to add iptables `POSTROUTING` `MASQUERADE` rules, performed only when `NAT=1` and `NAT_MASQUERADE=1` | `192.168.50.0/24 192.168.51.0/24` |
+| `NAT` | Whether to use NAT. `0` to disable. `1` to enable. | `1` |
 | `NAT_INTERFACE` | Interface on which to use NAT. E.g. `eth0` | `eth0` |
+| `NAT_MASQUERADE` | Whether to add iptables `POSTROUTING` `MASQUERADE` rules, if `NAT=1`. `0` to disable. `1` to enable. Disable this if running as a client. | `1` |
 | `CUSTOM_FIREWALL_SCRIPT` | Full path to a custom script for firewall. If present, this script is executed before any other `iptables` rules are provisioned | `/etc/openvpn/firewall.sh` |
 
 ## `docker-entrypoint.sh`
