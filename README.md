@@ -40,7 +40,7 @@ The defaults should work, so that there should be no need to specify any environ
 
 | Environment variables | Description | Default Value |
 |:-------:|:-------:|:-------:|
-| `OPENVPN_SERVER_CONFIG_FILE` | Absolute path to the server config | `/etc/openvpn/server.conf` |
+| `OPENVPN_CONFIG_FILE` | Absolute path to the server config | `/etc/openvpn/server.conf` |
 | `OPENVPN_ROUTES` | Space-delimited CIDRs to add iptables `POSTROUTING` `MASQUERADE` rules, performed only when `NAT=1` and `NAT_MASQUERADE=1` | `192.168.50.0/24 192.168.51.0/24` |
 | `NAT` | Whether to use NAT. `0` to disable. `1` to enable. | `1` |
 | `NAT_INTERFACE` | Interface on which to use NAT. E.g. `eth0` | `eth0` |

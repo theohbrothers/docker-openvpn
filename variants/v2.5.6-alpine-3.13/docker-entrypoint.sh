@@ -11,12 +11,19 @@ error() {
 }
 
 # Env vars
-OPENVPN_SERVER_CONFIG_FILE=${OPENVPN_SERVER_CONFIG_FILE:-/etc/openvpn/server.conf}
+OPENVPN_CONFIG_FILE=${OPENVPN_CONFIG_FILE:-/etc/openvpn/server.conf}
+OPENVPN_SERVER_CONFIG_FILE=${OPENVPN_SERVER_CONFIG_FILE:-} # Deprecated. For backward compatibility
 OPENVPN_ROUTES=${OPENVPN_ROUTES:-}
 NAT=${NAT:-1}
 NAT_INTERFACE=${NAT_INTERFACE:-eth0}
 NAT_MASQUERADE=${NAT_MASQUERADE:-1}
 CUSTOM_FIREWALL_SCRIPT=${CUSTOM_FIREWALL_SCRIPT:-/etc/openvpn/firewall.sh}
+
+# Normalization
+if [ -n "$OPENVPN_SERVER_CONFIG_FILE" ]; then
+    output "Warning: OPENVPN_SERVER_CONFIG_FILE is deprecated. Use OPENVPN_CONFIG_FILE instead."
+    OPENVPN_CONFIG_FILE="$OPENVPN_SERVER_CONFIG_FILE"
+fi
 
 # Provision
 output "Provisioning tun device"
@@ -61,7 +68,7 @@ iptables -L -nv -t nat
 # Generate the command line. openvpn man: https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/
 output "Generating command line"
 set openvpn --cd /etc/openvpn
-set "$@" --config "$OPENVPN_SERVER_CONFIG_FILE"
+set "$@" --config "$OPENVPN_CONFIG_FILE"
 
 # Exec
 ARGS="$@"
