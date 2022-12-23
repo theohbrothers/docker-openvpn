@@ -1,9 +1,10 @@
 @'
 #!/bin/sh
 
-# This iptables script is useful for openpvn in server mode. Not so much for client mode.
+# This iptables script to controlling traffic in the openvpn tunnel.
+# In this example, clients can only perform DNS, HTTP and HTTPS requests to the world.
 
-set -eo pipefail
+set -eu -o pipefail
 
 # Drop everything by default from tunnel to world
 iptables -P FORWARD DROP
