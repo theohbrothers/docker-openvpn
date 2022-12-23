@@ -13,9 +13,6 @@ error() {
 # Env vars
 OPENVPN=openvpn
 OPENVPN_SERVER_CONFIG_FILE=${OPENVPN_SERVER_CONFIG_FILE:-/etc/openvpn/server.conf}
-# OPENVPN_CLIENT_CONFIG_DIR=${OPENVPN_CLIENT_CONFIG_DIR:-/etc/openvpn/ccd}
-# OPENVPN_STATUS_FILE=${OPENVPN_STATUS_FILE:-}
-# OPENVPN_STATUS_FILE_WRITE_FREQUENCY_SECONDS={$OPENVPN_STATUS_FILE_WRITE_FREQUENCY_SECONDS:-10}
 OPENVPN_ROUTES=${OPENVPN_ROUTES:-}
 NAT=${NAT:-1}
 NAT_INTERFACE=${NAT_INTERFACE:-eth0}
@@ -60,10 +57,6 @@ iptables -L -nv -t nat
 output "Generating command line"
 set "$OPENVPN" --cd /etc/openvpn
 set "$@" --config "$OPENVPN_SERVER_CONFIG_FILE"
-# set "$@" --client-config-dir "$OPENVPN_CLIENT_CONFIG_DIR"
-if [ -n "$OPENVPN_STATUS_FILE" ]; then
-    set "$@" --status "$OPENVPN_STATUS_FILE" "$OPENVPN_STATUS_FILE_WRITE_FREQUENCY_SECONDS"
-fi
 
 # Exec
 ARGS="$@"
