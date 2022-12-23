@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -aeo pipefail
+set -eu -o pipefail
 
 output() {
     echo -e "[$( date -u '+%Y-%m-%dT%H:%M:%S%z' )] $1"
@@ -11,7 +11,6 @@ error() {
 }
 
 # Env vars
-OPENVPN=openvpn
 OPENVPN_SERVER_CONFIG_FILE=${OPENVPN_SERVER_CONFIG_FILE:-/etc/openvpn/server.conf}
 OPENVPN_ROUTES=${OPENVPN_ROUTES:-}
 NAT=${NAT:-1}
@@ -55,7 +54,7 @@ iptables -L -nv -t nat
 
 # Generate the command line. openvpn man: https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/
 output "Generating command line"
-set "$OPENVPN" --cd /etc/openvpn
+set openvpn --cd /etc/openvpn
 set "$@" --config "$OPENVPN_SERVER_CONFIG_FILE"
 
 # Exec
