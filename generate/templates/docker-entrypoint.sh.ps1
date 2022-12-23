@@ -16,6 +16,7 @@ OPENVPN_SERVER_CONFIG_FILE=${OPENVPN_SERVER_CONFIG_FILE:-/etc/openvpn/server.con
 OPENVPN_ROUTES=${OPENVPN_ROUTES:-}
 NAT=${NAT:-1}
 NAT_INTERFACE=${NAT_INTERFACE:-eth0}
+NAT_MASQUERADE=${NAT_MASQUERADE:-1}
 CUSTOM_FIREWALL_SCRIPT=${CUSTOM_FIREWALL_SCRIPT:-/etc/openvpn/firewall.sh}
 
 # Provision
@@ -34,14 +35,19 @@ if [ "$NAT" = 1 ]; then
     output "NAT is enabled"
     output "Provisioning NAT iptables rules"
     output "NAT_INTERFACE: $NAT_INTERFACE"
-    iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
-    if [ -n "$OPENVPN_ROUTES" ]; then
-        output "Provisioning NAT iptables rules for OPENVPN_ROUTES"
-        for r in $OPENVPN_ROUTES; do
-            iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
-        done
+    if [ "$NAT_MASQUERADE" = 1 ]; then
+        output "NAT_MASQUERADE is enabled"
+        iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
+        if [ -n "$OPENVPN_ROUTES" ]; then
+            output "Provisioning NAT iptables rules for OPENVPN_ROUTES=$OPENVPN_ROUTES"
+            for r in $OPENVPN_ROUTES; do
+                iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
+            done
+        else
+            output "Not provisioning route iptables rules because OPENVPN_ROUTES is empty"
+        fi
     else
-        output "Not provisioning route iptables rules because OPENVPN_ROUTES is empty"
+        output "Not provisioning NAT iptables rules because NAT_MASQUERADE is disabled."
     fi
 else
     output "NAT is disabled."
