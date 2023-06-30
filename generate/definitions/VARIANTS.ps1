@@ -2,11 +2,11 @@
 $local:VARIANTS_MATRIX = @(
     @{
         package = 'openvpn'
-        package_version = '2.5.6-r0'
+        package_version = '2.5.8-r0'
         distro = 'alpine'
-        distro_version = '3.13'
+        distro_version = '3.17'
         subvariants = @(
-            @{ components = @(); tag_as_latest = $true }
+            @{ components = @() }
         )
     }
     @{
@@ -130,11 +130,7 @@ $VARIANTS = @(
                         $variant['distro']
                         $variant['distro_version']
                 ) -join '-'
-                tag_as_latest = if ( $subVariant.Contains('tag_as_latest') ) {
-                                    $subVariant['tag_as_latest']
-                                } else {
-                                    $false
-                                }
+                tag_as_latest = if ($variant['package_version'] -eq $local:VARIANTS_MATRIX[0]['package_version'] -and $subVariant['components'].Count -eq 0) { $true } else { $false }
             }
         }
     }
