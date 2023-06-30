@@ -7,7 +7,7 @@
 
 Dockerized ``openvpn``.
 
-``easy-rsa`` is not included. It is not considered best practice to be signing or be able to sign certs on the server.
+``easy-rsa`` is not included, since is not best practice to be signing or be able to sign certs on the server. it is better to run [``easy-rsa``](https://github.com/theohbrothers/docker-easyrsa) in a separate container.
 
 ## Tags
 
