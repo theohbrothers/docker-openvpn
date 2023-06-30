@@ -25,52 +25,54 @@ if [ -n "$OPENVPN_SERVER_CONFIG_FILE" ]; then
     OPENVPN_CONFIG_FILE="$OPENVPN_SERVER_CONFIG_FILE"
 fi
 
-# Provision
-output "Provisioning tun device"
-mkdir -p /dev/net
-if [ ! -c /dev/net/tun ]; then
-    mknod /dev/net/tun c 10 200
-fi
-if [ -f "$CUSTOM_FIREWALL_SCRIPT" ]; then
-    output "Executing custom firewall script: $CUSTOM_FIREWALL_SCRIPT"
-    . "$CUSTOM_FIREWALL_SCRIPT"
-else
-    output "Not executing custom firewall script $CUSTOM_FIREWALL_SCRIPT because it does not exist"
-fi
-if [ "$NAT" = 1 ]; then
-    output "NAT is enabled"
-    output "Provisioning NAT iptables rules"
-    output "NAT_INTERFACE: $NAT_INTERFACE"
-    if [ "$NAT_MASQUERADE" = 1 ]; then
-        output "NAT_MASQUERADE is enabled"
-        iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
-        if [ -n "$OPENVPN_ROUTES" ]; then
-            output "Provisioning NAT iptables rules for OPENVPN_ROUTES=$OPENVPN_ROUTES"
-            for r in $OPENVPN_ROUTES; do
-                iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
-            done
+if [ "$#" -eq 0 ]; then
+    # Provision
+    output "Provisioning tun device"
+    mkdir -p /dev/net
+    if [ ! -c /dev/net/tun ]; then
+        mknod /dev/net/tun c 10 200
+    fi
+    if [ -f "$CUSTOM_FIREWALL_SCRIPT" ]; then
+        output "Executing custom firewall script: $CUSTOM_FIREWALL_SCRIPT"
+        . "$CUSTOM_FIREWALL_SCRIPT"
+    else
+        output "Not executing custom firewall script $CUSTOM_FIREWALL_SCRIPT because it does not exist"
+    fi
+    if [ "$NAT" = 1 ]; then
+        output "NAT is enabled"
+        output "Provisioning NAT iptables rules"
+        output "NAT_INTERFACE: $NAT_INTERFACE"
+        if [ "$NAT_MASQUERADE" = 1 ]; then
+            output "NAT_MASQUERADE is enabled"
+            iptables -t nat -C POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -o "$NAT_INTERFACE" -j MASQUERADE
+            if [ -n "$OPENVPN_ROUTES" ]; then
+                output "Provisioning NAT iptables rules for OPENVPN_ROUTES=$OPENVPN_ROUTES"
+                for r in $OPENVPN_ROUTES; do
+                    iptables -t nat -C POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE > dev/null 2>&1 || iptables -t nat -A POSTROUTING -s "$r" -o "$NAT_INTERFACE" -j MASQUERADE
+                done
+            else
+                output "Not provisioning route iptables rules because OPENVPN_ROUTES is empty"
+            fi
         else
-            output "Not provisioning route iptables rules because OPENVPN_ROUTES is empty"
+            output "Not provisioning NAT iptables rules because NAT_MASQUERADE is disabled."
         fi
     else
-        output "Not provisioning NAT iptables rules because NAT_MASQUERADE is disabled."
+        output "NAT is disabled."
+        output "Not adding NAT iptables rules"
     fi
-else
-    output "NAT is disabled."
-    output "Not adding NAT iptables rules"
+
+    output "Listing iptables rules:"
+    iptables -L -nv
+    output "Listing iptables NAT rules:"
+    iptables -L -nv -t nat
+
+    # Generate the command line. openvpn man: https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/
+    set openvpn --cd /etc/openvpn --config "$OPENVPN_CONFIG_FILE"
+    output "openvpn command line: $@"
+    exec "$@"
+elif [ "$#" -gt 0 ] && [ "${1#-}" != "$1" ]; then
+    output "openvpn command line: $@"
+    exec openvpn "$@"
 fi
 
-output "Listing iptables rules:"
-iptables -L -nv
-output "Listing iptables NAT rules:"
-iptables -L -nv -t nat
-
-# Generate the command line. openvpn man: https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/
-output "Generating command line"
-set openvpn --cd /etc/openvpn
-set "$@" --config "$OPENVPN_CONFIG_FILE"
-
-# Exec
-ARGS="$@"
-output "openvpn command line: $ARGS"
 exec "$@"
