@@ -34,7 +34,12 @@ $(
 @'
 ## Usage
 
-It is assumed that you have knowledge of configuring `openvpn`.
+It is assumed that you have knowledge of configuring `openvpn`. If needed, refer to the official manuals:
+
+- [Openvpn 2.3 manual](https://openvpn.net/community-resources/reference-manual-for-openvpn-2-3/)
+- [Openvpn 2.4 manual](https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/)
+- [Openvpn 2.5 manual](https://openvpn.net/community-resources/reference-manual-for-openvpn-2-5/)
+- [Openvpn 2.6 manual](https://openvpn.net/community-resources/reference-manual-for-openvpn-2-6/)
 
 To run the image, at the least you should mount a `/etc/openvpn/server.conf`, which may be a unified openvpn profile (see INLINE FILE SUPPORT section in the [openvpn manual](https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage)).
 
