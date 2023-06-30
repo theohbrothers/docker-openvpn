@@ -1,10 +1,9 @@
 @'
 #!/bin/sh
+set -eu
 
 # This iptables script to controlling traffic in the openvpn tunnel.
 # In this example, clients can only perform DNS, HTTP and HTTPS requests to the world.
-
-set -eu -o pipefail
 
 # Drop everything by default from tunnel to world
 iptables -P FORWARD DROP

@@ -2,15 +2,18 @@
 version: '2.1'
 services:
   openvpn-server:
-    image: theohbrothers/docker-openvpn:$( $VARIANT['tag'] )
+    build:
+      dockerfile: Dockerfile
+      context: .
     environment:
       - OPENVPN_CONFIG_FILE=/etc/openvpn/server.conf
+      - NAT_MASQUERADE=1
       # - CUSTOM_FIREWALL_SCRIPT=/etc/openvpn/firewall.sh
     volumes:
       - ./openvpn/server.conf:/etc/openvpn/server.conf
       # - ./openvpn/firewall.sh:/etc/openvpn/firewall.sh
     ports:
-      - "1194:1194/udp"
+      - 1194:1194/udp
     cap_add:
       - NET_ADMIN
     # sysctls for the container if it is not set on the host. See: https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls
@@ -22,7 +25,9 @@ services:
     restart: unless-stopped
 
   openvpn-client:
-    image: theohbrothers/docker-openvpn:$( $VARIANT['tag'] )
+    build:
+      dockerfile: Dockerfile
+      context: .
     environment:
       - OPENVPN_CONFIG_FILE=/etc/openvpn/client.conf
       - NAT_MASQUERADE=0
