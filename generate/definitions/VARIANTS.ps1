@@ -2,7 +2,7 @@
 $local:VARIANTS_MATRIX = @(
     @{
         package = 'openvpn'
-        package_version = '2.6.5-r0'
+        package_version = '2.6.5'
         distro = 'alpine'
         distro_version = '3.18'
         subvariants = @(
@@ -11,7 +11,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.5.8-r0'
+        package_version = '2.5.8'
         distro = 'alpine'
         distro_version = '3.17'
         subvariants = @(
@@ -20,7 +20,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.4.12-r0'
+        package_version = '2.4.12'
         distro = 'alpine'
         distro_version = '3.12'
         subvariants = @(
@@ -29,7 +29,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.4.11-r0'
+        package_version = '2.4.11'
         distro = 'alpine'
         distro_version = '3.11'
         subvariants = @(
@@ -38,7 +38,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.4.11-r0'
+        package_version = '2.4.11'
         distro = 'alpine'
         distro_version = '3.10'
         subvariants = @(
@@ -47,7 +47,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.4.6-r4'
+        package_version = '2.4.6'
         distro = 'alpine'
         distro_version = '3.9'
         subvariants = @(
@@ -56,7 +56,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.4.6-r3'
+        package_version = '2.4.6'
         distro = 'alpine'
         distro_version = '3.8'
         subvariants = @(
@@ -65,7 +65,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.4.4-r1'
+        package_version = '2.4.4'
         distro = 'alpine'
         distro_version = '3.7'
         subvariants = @(
@@ -74,7 +74,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.4.4-r0'
+        package_version = '2.4.4'
         distro = 'alpine'
         distro_version = '3.6'
         subvariants = @(
@@ -83,7 +83,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.3.18-r0'
+        package_version = '2.3.18'
         distro = 'alpine'
         distro_version = '3.5'
         subvariants = @(
@@ -92,7 +92,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.3.18-r0'
+        package_version = '2.3.18'
         distro = 'alpine'
         distro_version = '3.4'
         subvariants = @(
@@ -101,7 +101,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.3.18-r0'
+        package_version = '2.3.18'
         distro = 'alpine'
         distro_version = '3.3'
         subvariants = @(
@@ -118,7 +118,6 @@ $VARIANTS = @(
                 _metadata = @{
                     package = $variant['package']
                     package_version = $variant['package_version']
-                    package_version_semver = "v$( $variant['package_version'] )" -replace '-r\d+', ''   # E.g. Strip out the '-r' in '2.3.0.0-r1'
                     distro = $variant['distro']
                     distro_version = $variant['distro_version']
                     platforms = & {
