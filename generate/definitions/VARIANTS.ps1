@@ -132,9 +132,9 @@ $VARIANTS = @(
                     components = $subVariant['components']
                     job_group_key = $variant['package_version']
                 }
-                # Docker image tag. E.g. 'v2.3.0-alpine-3.6'
+                # Docker image tag. E.g. 'v2.6.5-alpine-3.18'
                 tag = @(
-                        "v$( $variant['package_version'] )" -replace '-r\d+', ''    # E.g. Strip out the '-r' in '2.3.0.0-r1'
+                        $variant['package_version']
                         $subVariant['components'] | ? { $_ }
                         $variant['distro']
                         $variant['distro_version']
