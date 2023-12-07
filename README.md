@@ -12,7 +12,7 @@ Dockerized `openvpn`.
 
 | Tag | Dockerfile Build Context |
 |:-------:|:---------:|
-| `:2.6.5-alpine-3.18`, `:latest` | [View](variants/2.6.5-alpine-3.18) |
+| `:2.6.7-alpine-3.18`, `:latest` | [View](variants/2.6.7-alpine-3.18) |
 | `:2.5.8-alpine-3.17` | [View](variants/2.5.8-alpine-3.17) |
 | `:2.4.12-alpine-3.12` | [View](variants/2.4.12-alpine-3.12) |
 | `:2.4.11-alpine-3.11` | [View](variants/2.4.11-alpine-3.11) |
@@ -37,7 +37,7 @@ It is assumed that you have knowledge of configuring `openvpn`. If needed, refer
 To run the image, at the least you should mount a `/etc/openvpn/server.conf`, which may be a unified openvpn profile (see INLINE FILE SUPPORT section in the [openvpn manual](https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage)).
 
 ```sh
-docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:2.6.5-alpine-3.18
+docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:2.6.7-alpine-3.18
 ```
 
 ## Environment variables
