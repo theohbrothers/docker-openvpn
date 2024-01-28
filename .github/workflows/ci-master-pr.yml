@@ -33,7 +33,7 @@ jobs:
       run: |
         git diff --exit-code
 
-  build-2-6-7:
+  build-2-6-8:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -64,9 +64,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-2.6.7-${{ github.sha }}
+        key: ${{ runner.os }}-buildx-2.6.8-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-buildx-2.6.7-
+          ${{ runner.os }}-buildx-2.6.8-
           ${{ runner.os }}-buildx-
 
     - name: Login to Docker Hub registry
@@ -79,7 +79,7 @@ jobs:
 
     # This step generates the docker tags
     - name: Prepare
-      id: prep-2-6-7-alpine-3-18
+      id: prep-2-6-8-alpine-3-18
       run: |
         set -e
 
@@ -92,7 +92,7 @@ jobs:
         # Generate docker image tags
         # E.g. 'v0.0.0-<variant>' and 'v0.0.0-abc0123-<variant>'
         # E.g. 'master-<variant>' and 'master-abc0123-<variant>'
-        VARIANT="2.6.7-alpine-3.18"
+        VARIANT="2.6.8-alpine-3.18"
         REF_VARIANT="${REF}-${VARIANT}"
         REF_SHA_VARIANT="${REF}-${SHA}-${VARIANT}"
 
@@ -102,45 +102,45 @@ jobs:
         echo "REF_VARIANT=$REF_VARIANT" >> $GITHUB_OUTPUT
         echo "REF_SHA_VARIANT=$REF_SHA_VARIANT" >> $GITHUB_OUTPUT
 
-    - name: 2.6.7-alpine-3.18 - Build (PRs)
+    - name: 2.6.8-alpine-3.18 - Build (PRs)
       # Run only on pull requests
       if: github.event_name == 'pull_request'
       uses: docker/build-push-action@v3
       with:
-        context: variants/2.6.7-alpine-3.18
+        context: variants/2.6.8-alpine-3.18
         platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/s390x
         push: false
         tags: |
-          ${{ github.repository }}:${{ steps.prep-2-6-7-alpine-3-18.outputs.REF_VARIANT }}
-          ${{ github.repository }}:${{ steps.prep-2-6-7-alpine-3-18.outputs.REF_SHA_VARIANT }}
+          ${{ github.repository }}:${{ steps.prep-2-6-8-alpine-3-18.outputs.REF_VARIANT }}
+          ${{ github.repository }}:${{ steps.prep-2-6-8-alpine-3-18.outputs.REF_SHA_VARIANT }}
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
-    - name: 2.6.7-alpine-3.18 - Build and push (master)
+    - name: 2.6.8-alpine-3.18 - Build and push (master)
       # Run only on master
       if: github.ref == 'refs/heads/master'
       uses: docker/build-push-action@v3
       with:
-        context: variants/2.6.7-alpine-3.18
+        context: variants/2.6.8-alpine-3.18
         platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/s390x
         push: true
         tags: |
-          ${{ github.repository }}:${{ steps.prep-2-6-7-alpine-3-18.outputs.REF_VARIANT }}
-          ${{ github.repository }}:${{ steps.prep-2-6-7-alpine-3-18.outputs.REF_SHA_VARIANT }}
+          ${{ github.repository }}:${{ steps.prep-2-6-8-alpine-3-18.outputs.REF_VARIANT }}
+          ${{ github.repository }}:${{ steps.prep-2-6-8-alpine-3-18.outputs.REF_SHA_VARIANT }}
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
-    - name: 2.6.7-alpine-3.18 - Build and push (release)
+    - name: 2.6.8-alpine-3.18 - Build and push (release)
       if: startsWith(github.ref, 'refs/tags/')
       uses: docker/build-push-action@v3
       with:
-        context: variants/2.6.7-alpine-3.18
+        context: variants/2.6.8-alpine-3.18
         platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/s390x
         push: true
         tags: |
-          ${{ github.repository }}:${{ steps.prep-2-6-7-alpine-3-18.outputs.VARIANT }}
-          ${{ github.repository }}:${{ steps.prep-2-6-7-alpine-3-18.outputs.REF_VARIANT }}
-          ${{ github.repository }}:${{ steps.prep-2-6-7-alpine-3-18.outputs.REF_SHA_VARIANT }}
+          ${{ github.repository }}:${{ steps.prep-2-6-8-alpine-3-18.outputs.VARIANT }}
+          ${{ github.repository }}:${{ steps.prep-2-6-8-alpine-3-18.outputs.REF_VARIANT }}
+          ${{ github.repository }}:${{ steps.prep-2-6-8-alpine-3-18.outputs.REF_SHA_VARIANT }}
           ${{ github.repository }}:latest
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
@@ -1204,7 +1204,7 @@ jobs:
 
   update-draft-release:
     needs:
-      - build-2-6-7
+      - build-2-6-8
       - build-2-5-8
       - build-2-4-12
       - build-2-4-11
@@ -1224,7 +1224,7 @@ jobs:
 
   publish-draft-release:
     needs:
-      - build-2-6-7
+      - build-2-6-8
       - build-2-5-8
       - build-2-4-12
       - build-2-4-11
@@ -1246,7 +1246,7 @@ jobs:
 
   update-dockerhub-description:
     needs:
-      - build-2-6-7
+      - build-2-6-8
       - build-2-5-8
       - build-2-4-12
       - build-2-4-11
