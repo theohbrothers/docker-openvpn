@@ -2,7 +2,7 @@
 $local:VARIANTS_MATRIX = @(
     @{
         package = 'openvpn'
-        package_version = '2.6.10'
+        package_version = '2.6.12'
         distro = 'alpine'
         distro_version = 'edge'
         subvariants = @(
@@ -11,7 +11,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.6.8'
+        package_version = '2.6.11'
         distro = 'alpine'
         distro_version = '3.18'
         subvariants = @(
@@ -20,7 +20,7 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.5.8'
+        package_version = '2.5.10'
         distro = 'alpine'
         distro_version = '3.17'
         subvariants = @(
