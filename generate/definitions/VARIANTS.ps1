@@ -2,6 +2,15 @@
 $local:VARIANTS_MATRIX = @(
     @{
         package = 'openvpn'
+        package_version = '2.7.7'
+        distro = 'alpine'
+        distro_version = '3.24'
+        subvariants = @(
+            @{ components = @() }
+        )
+    }
+    @{
+        package = 'openvpn'
         package_version = '2.6.20'
         distro = 'alpine'
         distro_version = '3.22'
