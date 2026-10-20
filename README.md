@@ -35,12 +35,22 @@ It is assumed that you have knowledge of configuring `openvpn`. If needed, refer
 - [Openvpn 2.4 manual](https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/)
 - [Openvpn 2.5 manual](https://openvpn.net/community-resources/reference-manual-for-openvpn-2-5/)
 - [Openvpn 2.6 manual](https://openvpn.net/community-resources/reference-manual-for-openvpn-2-6/)
+- [Openvpn 2.7 manual](https://openvpn.net/community-resources/reference-manual-for-openvpn-2-7/)
 
-To run the image, at the least you should mount a `/etc/openvpn/server.conf`, which may be a unified openvpn profile (see INLINE FILE SUPPORT section in the [openvpn manual](https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage)).
+To run the image, at the least you should mount a `/etc/openvpn/server.conf`, which may be a unified openvpn profile (see INLINE FILE SUPPORT section in the [openvpn manual](https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage)). See [examples](#examples) section for an example of a unified ``server.conf`` and ``client.conf``.
 
 ```sh
-docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf theohbrothers/docker-openvpn:2.7.7-alpine-3.24
+docker run --rm -it --cap-add NET_ADMIN -v /path/to/server.conf:/etc/openvpn/server.conf:ro theohbrothers/docker-openvpn:2.7.7-alpine-3.24
 ```
+
+## Examples
+
+See docker compose examples:
+
+- [openvpn 2.4 example](docs/2.4-example)
+- [openvpn 2.5 example](docs/2.5-example)
+- [openvpn 2.6 example](docs/2.6-example)
+- [openvpn 2.7 example](docs/2.7-example)
 
 ## Environment variables
 

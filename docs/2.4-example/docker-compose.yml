@@ -1,0 +1,201 @@
+services:
+  init-gen-ta-key:
+    image: theohbrothers/docker-openvpn:2.4.12-alpine-3.12
+    network_mode: none
+    volumes:
+      - data:/data
+    stop_signal: SIGKILL
+    entrypoint:
+      - /bin/sh
+    command:
+      - -c
+      - |
+          if [ ! -f /data/ta.key ]; then
+              openvpn --genkey --secret /data/ta.key
+          fi
+
+  easyrsa:
+    depends_on:
+      init-gen-ta-key:
+        condition: service_completed_successfully
+    image: theohbrothers/docker-easyrsa:3.2.2
+    environment:
+      - EASYRSA_PKI=/data/pki
+      - EASYRSA_BATCH=true
+    volumes:
+      - data:/data
+      - conf:/conf
+    network_mode: none
+    stop_signal: SIGKILL
+    entrypoint:
+      - /bin/sh
+    command:
+      - -c
+      - |
+          set -eu
+
+          if find /data/pki -type f; then
+              echo "Already initialized pki and openvpn configs. Nothing to do"
+              exit 0
+          fi
+
+          openssl dhparam -out /data/dh.pem 2048
+
+          easyrsa init-pki
+          easyrsa build-ca nopass
+          easyrsa build-server-full server-01 nopass
+          easyrsa build-client-full client-01 nopass
+          find /data/pki
+
+          cat - > /conf/server-01.conf <<EOF
+          # See sample config file: https://github.com/OpenVPN/openvpn/blob/v2.4.8/sample/sample-config-files/server.conf
+          port 1194
+          proto udp
+          dev tun
+          topology subnet
+          server 10.8.0.0 255.255.255.0
+          ifconfig-pool-persist tun-ipp.txt
+          ;client-config-dir ccd
+          keepalive 10 120
+          max-clients 5
+          user nobody
+          group nogroup
+          persist-key
+          persist-tun
+          status tun.status
+          status-version 3
+          verb 4
+          mute 20
+          tls-version-min 1.3
+          cipher AES-256-GCM
+          auth SHA512
+          key-direction 0
+          ;crl-verify crl.pem
+          <ca>
+          $$( cat /data/pki/ca.crt )
+          </ca>
+          <cert>
+          $$( cat "/data/pki/issued/server-01.crt" )
+          </cert>
+          <key>
+          $$( cat "/data/pki/private/server-01.key" )
+          </key>
+          <dh>
+          $$( cat "/data/dh.pem" )
+          </dh>
+          <tls-auth>
+          $$( cat /data/ta.key )
+          </tls-auth>
+          EOF
+
+          cat - > /conf/client-01.conf <<EOF
+          # See sample config file: https://github.com/OpenVPN/openvpn/blob/v2.4.8/sample/sample-config-files/client.conf
+          client
+          dev tun
+          proto udp
+          remote openvpn-server 1194
+          remote-random
+          # Push all traffic into the tunnel
+          ;redirect-gateway def1 bypass-dhcp
+          resolv-retry infinite
+          nobind
+          user nobody
+          group nobody
+          persist-key
+          persist-tun
+          remote-cert-tls server
+          cipher AES-256-GCM
+          auth SHA512
+          verb 4
+          key-direction 1
+          <ca>
+          $$( cat /data/pki/ca.crt )
+          </ca>
+          <cert>
+          $$( cat "/data/pki/issued/client-01.crt" )
+          </cert>
+          <key>
+          $$( cat "/data/pki/private/client-01.key" )
+          </key>
+          <tls-auth>
+          $$( cat /data/ta.key )
+          </tls-auth>
+          EOF
+
+  openvpn-server:
+    depends_on:
+      easyrsa:
+        condition: service_completed_successfully
+    image: theohbrothers/docker-openvpn:2.4.12-alpine-3.12
+    environment:
+      - OPENVPN_CONFIG_FILE=/etc/openvpn/server.conf
+      - NAT_MASQUERADE=1
+      # - CUSTOM_FIREWALL_SCRIPT=/etc/openvpn/firewall.sh
+    volumes:
+      - type: volume
+        source: conf
+        target: /etc/openvpn/server.conf
+        read_only: true
+        volume:
+          subpath: server-01.conf
+      # - ./openvpn/firewall.sh:/etc/openvpn/firewall.sh
+    # ports:
+    #   - 1194:1194/udp
+    networks:
+      - default
+    cap_add:
+      - NET_ADMIN
+    # sysctls for the container if it is not set on the host. See: https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls
+    sysctls:
+      - net.ipv4.conf.all.forwarding=1
+      # - net.ipv6.conf.all.disable_ipv6=0
+      # - net.ipv6.conf.default.forwarding=1
+      # - net.ipv6.conf.all.forwarding=1
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "find /etc/openvpn/tun.status -mmin -1 | grep -q ." ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+  openvpn-client:
+    depends_on:
+      easyrsa:
+        condition: service_completed_successfully
+    image: theohbrothers/docker-openvpn:2.4.12-alpine-3.12
+    environment:
+      - OPENVPN_CONFIG_FILE=/etc/openvpn/client.conf
+      - NAT_MASQUERADE=0
+      # - CUSTOM_FIREWALL_SCRIPT=/etc/openvpn/firewall.sh
+    volumes:
+      - type: volume
+        source: conf
+        target: /etc/openvpn/client.conf
+        read_only: true
+        volume:
+          subpath: client-01.conf
+    networks:
+      - default
+    cap_add:
+      - NET_ADMIN
+    # sysctls for the container if it is not set on the host. See: https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls
+    sysctls:
+      - net.ipv4.conf.all.forwarding=1
+      # - net.ipv6.conf.all.disable_ipv6=0
+      # - net.ipv6.conf.default.forwarding=1
+      # - net.ipv6.conf.all.forwarding=1
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "ping -w1 -c1 10.8.0.1" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  data:
+  conf:
+
+networks:
+  default:

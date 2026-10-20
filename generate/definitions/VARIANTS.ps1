@@ -183,38 +183,6 @@ $VARIANTS_SHARED = @{
                     }
                 )
             }
-            'docker-compose.yml' = @{
-                common = $true
-                passes = @(
-                    @{
-                        variables = @{}
-                    }
-                )
-            }
-            'openvpn/client.conf' = @{
-                common = $true
-                passes = @(
-                    @{
-                        variables = @{}
-                    }
-                )
-            }
-            'openvpn/server.conf' = @{
-                common = $true
-                passes = @(
-                    @{
-                        variables = @{}
-                    }
-                )
-            }
-            'openvpn/firewall.sh' = @{
-                common = $true
-                passes = @(
-                    @{
-                        variables = @{}
-                    }
-                )
-            }
         }
     }
 }
