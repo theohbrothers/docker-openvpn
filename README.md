@@ -17,15 +17,7 @@ Dockerized `openvpn`.
 | `:2.6.11-alpine-3.18` | [View](variants/2.6.11-alpine-3.18) |
 | `:2.5.10-alpine-3.17` | [View](variants/2.5.10-alpine-3.17) |
 | `:2.4.12-alpine-3.12` | [View](variants/2.4.12-alpine-3.12) |
-| `:2.4.11-alpine-3.11` | [View](variants/2.4.11-alpine-3.11) |
-| `:2.4.11-alpine-3.10` | [View](variants/2.4.11-alpine-3.10) |
-| `:2.4.6-alpine-3.9` | [View](variants/2.4.6-alpine-3.9) |
-| `:2.4.6-alpine-3.8` | [View](variants/2.4.6-alpine-3.8) |
-| `:2.4.4-alpine-3.7` | [View](variants/2.4.4-alpine-3.7) |
-| `:2.4.4-alpine-3.6` | [View](variants/2.4.4-alpine-3.6) |
 | `:2.3.18-alpine-3.5` | [View](variants/2.3.18-alpine-3.5) |
-| `:2.3.18-alpine-3.4` | [View](variants/2.3.18-alpine-3.4) |
-| `:2.3.18-alpine-3.3` | [View](variants/2.3.18-alpine-3.3) |
 
 ## Usage
 

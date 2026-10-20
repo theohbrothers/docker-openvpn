@@ -47,81 +47,9 @@ $local:VARIANTS_MATRIX = @(
     }
     @{
         package = 'openvpn'
-        package_version = '2.4.11'
-        distro = 'alpine'
-        distro_version = '3.11'
-        subvariants = @(
-            @{ components = @() }
-        )
-    }
-    @{
-        package = 'openvpn'
-        package_version = '2.4.11'
-        distro = 'alpine'
-        distro_version = '3.10'
-        subvariants = @(
-            @{ components = @() }
-        )
-    }
-    @{
-        package = 'openvpn'
-        package_version = '2.4.6'
-        distro = 'alpine'
-        distro_version = '3.9'
-        subvariants = @(
-            @{ components = @() }
-        )
-    }
-    @{
-        package = 'openvpn'
-        package_version = '2.4.6'
-        distro = 'alpine'
-        distro_version = '3.8'
-        subvariants = @(
-            @{ components = @() }
-        )
-    }
-    @{
-        package = 'openvpn'
-        package_version = '2.4.4'
-        distro = 'alpine'
-        distro_version = '3.7'
-        subvariants = @(
-            @{ components = @() }
-        )
-    }
-    @{
-        package = 'openvpn'
-        package_version = '2.4.4'
-        distro = 'alpine'
-        distro_version = '3.6'
-        subvariants = @(
-            @{ components = @() }
-        )
-    }
-    @{
-        package = 'openvpn'
         package_version = '2.3.18'
         distro = 'alpine'
         distro_version = '3.5'
-        subvariants = @(
-            @{ components = @() }
-        )
-    }
-    @{
-        package = 'openvpn'
-        package_version = '2.3.18'
-        distro = 'alpine'
-        distro_version = '3.4'
-        subvariants = @(
-            @{ components = @() }
-        )
-    }
-    @{
-        package = 'openvpn'
-        package_version = '2.3.18'
-        distro = 'alpine'
-        distro_version = '3.3'
         subvariants = @(
             @{ components = @() }
         )
