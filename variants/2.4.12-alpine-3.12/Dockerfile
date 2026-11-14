@@ -1,5 +1,7 @@
 FROM alpine:3.12
 
+RUN apk add --no-cache ca-certificates
+
 RUN set -eux; \
     apk add --no-cache openvpn~=2.4.12 iptables; \
     # Workaround openvpn --version exiting with non-zero exit code on openvpn <= 2.4.x
